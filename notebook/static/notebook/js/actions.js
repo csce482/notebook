@@ -882,6 +882,12 @@ define([
             help_index : 'fb',
             icon: 'fa-save',
             handler : function (env, event) {
+                var date = new Date();
+                var hour = date.getHours();
+                var min = date.getMinutes();
+                var second = date.getSeconds();
+                var miliSec = date.getMilliseconds();
+                console.log("Here JACOB" + " " + hour + ":" + min + ":" + second + ":" + miliSec);
                 env.notebook.save_checkpoint();
                 if(event){
                     event.preventDefault();

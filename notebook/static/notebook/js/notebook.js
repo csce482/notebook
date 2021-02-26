@@ -2741,10 +2741,16 @@ define([
         };
         // time the ajax call for autosave tuning purposes.
         var start =  new Date().getTime();
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        var second = date.getSeconds();
+        var miliSec = date.getMilliseconds();
 
         var that = this;
         var _save = function () {
-            return that.contents.save(that.notebook_path, model).then(
+            console.log("Tesing Here? JACOB" + " " + hour + ":" + min + ":" + second + ":" + miliSec);  //i dont think it comes here either
+            return that.contents.save(that.notebook_path, model).then( //JACOB 
                 $.proxy(that.save_notebook_success, that, start),
                 function (error) {
                     that.events.trigger('notebook_save_failed.Notebook', error);
@@ -3328,7 +3334,13 @@ define([
     /**
      * Save the notebook then immediately create a checkpoint.
      */
-    Notebook.prototype.save_checkpoint = function () {
+    Notebook.prototype.save_checkpoint = function () { //prototype is how you define a function in js
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        var second = date.getSeconds();
+        var miliSec = date.getMilliseconds();
+        console.log("Pressed Save Button" + " " + hour + ":" + min + ":" + second + ":" + miliSec); //JACOB
         this._checkpoint_after_save = true;
         return this.save_notebook(true);
     };

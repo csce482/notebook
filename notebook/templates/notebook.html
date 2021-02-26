@@ -96,7 +96,10 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             title="{% trans %}Save a copy of the notebook's contents and start a new kernel{% endtrans %}">
                             <a href="#" role="menuitem">{% trans %}Save as...{% endtrans %}</a></li>
                         <li id="rename_notebook" role="none"><a href="#" role="menuitem">{% trans %}Rename...{% endtrans %}</a></li>
-                        <li id="save_checkpoint" role="none"><a href="#" role="menuitem">{% trans %}Save and Checkpoint{% endtrans %}</a></li>
+                        <li id="save_checkpoint" role="none"><a href="#" role="menuitem">{% trans %}Save and Checkpoint__JACOB{% endtrans %}</a></li>
+                        <!--
+                        <li id="save_checkpoint" role="none"><a href="#" role="menuitem">{% trans %}Save and Checkpoint __test_Jacobs{% endtrans %}</a></li>
+                        -->
                         <!-- <hr/> -->
                         <li class="divider" role="none"></li>
                         <li id="restore_checkpoint" class="menu_focus_highlight dropdown-submenu" role="none"><a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Revert to Checkpoint{% endtrans %}<span class="sr-only">Dropdown</span></a>
@@ -285,7 +288,11 @@ data-notebook-path="{{notebook_path | urlencode}}"
                         <li class="divider" role="none"></li>
                         <li id="menu-change-kernel" class="menu_focus_highlight dropdown-submenu" role="menuitem">
                             <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Change kernel{% endtrans %}</a>
-                            <ul class="dropdown-menu" id="menu-change-kernel-submenu"></ul>
+                            <ul class="dropdown-menu" id="menu-change-kernel-submenu">
+                                <li>
+                                    <a>{% trans %}Python 3 Checkpoint{% endtrans %}</a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </li>

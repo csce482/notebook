@@ -226,7 +226,7 @@ define([
             '#trust_notebook' : 'trust-notebook',
             '#rename_notebook' : 'rename-notebook',
             '#find_and_replace' : 'find-and-replace',
-            '#save_checkpoint': 'save-notebook',
+            '#save_checkpoint': 'save-notebook', //JACOB
             '#shutdown_kernel': 'confirm-shutdown-kernel',
             '#restart_kernel': 'confirm-restart-kernel',
             '#restart_clear_output': 'confirm-restart-kernel-and-clear-output',
@@ -279,8 +279,10 @@ define([
             }
             var id_act = 'jupyter-notebook:'+id_actions_dict[idx];
             if(!that.actions.exists(id_act)){
-                console.warn('actions', id_act, 'does not exist, still binding it in case it will be defined later...');
+                console.warn('actions', id_act, 'does not JACOB exist, still binding it in case it will be defined later...');
             }
+            console.log(id_act);
+            console.log("JACOB here 3");
             // Immediately-Invoked Function Expression cause JS.
             (function(that, id_act, idx){
                 var el = that.element.find(idx);
