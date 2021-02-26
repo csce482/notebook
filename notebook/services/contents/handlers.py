@@ -157,11 +157,13 @@ class ContentsHandler(APIHandler):
         self._finish_model(model)
     
     @gen.coroutine
+    #JACOB twister routine handler
     def _save(self, model, path):
         """Save an existing file."""
         chunk = model.get("chunk", None) 
         if not chunk or chunk == -1:  # Avoid tedious log information
-            self.log.info(u"Saving file at %s", path)  
+            self.log.info(u"Saving file _JACOBS_ at %s", path)  
+            #self.log.info(u"TESTING TESTING %s", path)
         model = yield maybe_future(self.contents_manager.save(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)
@@ -216,17 +218,19 @@ class ContentsHandler(APIHandler):
           in `content` key of JSON request body. If content is not specified,
           create a new empty notebook.
         """
+        self.log.info(u"Pressed Save Button Jacob %s",path)
         model = self.get_json_body()
         if model:
             if model.get('copy_from'):
                 raise web.HTTPError(400, "Cannot copy with PUT, only POST")
             exists = yield maybe_future(self.contents_manager.file_exists(path))
             if exists:
-                yield maybe_future(self._save(model, path))
+                self.log.info(u"Entered Save Button Jacob %s",path)
+                yield maybe_future(self._save(model, path)) #JACOB if it exists then it calls the save function.checkpoint
             else:
-                yield maybe_future(self._upload(model, path))
+                yield maybe_future(self._upload(model, path)) #checkpoint
         else:
-            yield maybe_future(self._new_untitled(path))
+            yield maybe_future(self._new_untitled(path)) #create empty file. do not checkpoint 
 
     @web.authenticated
     @gen.coroutine
