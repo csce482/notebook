@@ -1656,7 +1656,7 @@ class NotebookApp(JupyterApp):
                                  "jupyter_client installed!  Please upgrade jupyter_client or change kernel managers.")
             self.log.info("Asynchronous kernel management has been configured to use '{}'.".
                           format(self.kernel_manager.__class__.__name__))
-
+        # JACOB2 
         self.contents_manager = self.contents_manager_class(
             parent=self,
             log=self.log,
