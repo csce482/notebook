@@ -107,7 +107,7 @@ class ContentsHandler(APIHandler):
         if content not in {'0', '1'}:
             raise web.HTTPError(400, u'Content %r is invalid' % content)
         content = int(content)
-        
+        # JACOB2 self.contents_manger is of class LargeFileManager
         model = yield maybe_future(self.contents_manager.get(
             path=path, type=type, format=format, content=content,
         ))
@@ -151,6 +151,7 @@ class ContentsHandler(APIHandler):
     def _new_untitled(self, path, type='', ext=''):
         """Create a new, empty untitled entity"""
         self.log.info(u"Creating new %s in %s", type or 'file', path)
+        # self.log.info(u"Creating new %s in %s", type or 'file', path)
         model = yield maybe_future(self.contents_manager.new_untitled(path=path, type=type, ext=ext))
         self.set_status(201)
         validate_model(model, expect_content=False)
@@ -161,6 +162,7 @@ class ContentsHandler(APIHandler):
     def _save(self, model, path):
         """Save an existing file."""
         chunk = model.get("chunk", None) 
+        self.log.info("_save in handlers.py")  
         if not chunk or chunk == -1:  # Avoid tedious log information
             self.log.info(u"Saving file _JACOBS_ at %s", path)  
             #self.log.info(u"TESTING TESTING %s", path)

@@ -2715,6 +2715,7 @@ define([
      *
      */
     Notebook.prototype.save_notebook = function (check_last_modified) {
+        console.log("notebook.js save_notebook function") // JACOB2 
         if (check_last_modified === undefined) {
             check_last_modified = true;
         }
@@ -2749,8 +2750,10 @@ define([
 
         var that = this;
         var _save = function () {
-            console.log("Tesing Here? JACOB" + " " + hour + ":" + min + ":" + second + ":" + miliSec);  //i dont think it comes here either
-            return that.contents.save(that.notebook_path, model).then( //JACOB 
+            console.log("_save in notebook.js Tesing Here? JACOB" + " " + hour + ":" + min + ":" + second + ":" + miliSec);  //i dont think it comes here either
+            console.log("that.notebook_path: " + that.notebook_path)
+            console.log("model: " + model)
+            return that.contents.save(that.notebook_path, model).then( //JACOB WHATDOESTHISLINEDO?
                 $.proxy(that.save_notebook_success, that, start),
                 function (error) {
                     that.events.trigger('notebook_save_failed.Notebook', error);
