@@ -27,6 +27,11 @@ from ipython_genutils.py3compat import getcwd
 
 from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 
+from datetime import datetime
+import time
+
+from progress.bar import Bar
+
 # Since use of AsyncMultiKernelManager is optional at the moment, don't require appropriate jupyter_client.
 # This will be confirmed at runtime in notebookapp.  The following block can be removed once the jupyter_client's
 # floor has been updated.
@@ -173,11 +178,17 @@ class MappingKernelManager(MultiKernelManager):
         if kernel_id is None:
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
+            self.log.info(datetime.now()) #JACOB
+            bar = Bar('Processing', max = 20)
             kernel_id = await maybe_future(self.pinned_superclass.start_kernel(self, **kwargs))
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
-            self.log.info("Kernel started: %s, name: %s" % (kernel_id, self._kernels[kernel_id].kernel_name))
-            self.log.debug("Kernel args: %r" % kwargs)
+            time.sleep(3)
+            bar.next()
+            bar.finish()
+            self.log.info("Kernel started Jacob: %s, name: %s" % (kernel_id, self._kernels[kernel_id].kernel_name))
+            self.log.info(datetime.now())
+            self.log.debug("Kernel args Jacob: %r" % kwargs)
             # register callback for failed auto-restart
             self.add_restart_callback(kernel_id,
                 lambda : self._handle_kernel_died(kernel_id),

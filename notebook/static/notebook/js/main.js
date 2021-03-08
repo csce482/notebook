@@ -159,6 +159,7 @@ requirejs([
         actions: acts,
         config: config_section},
         common_options));
+    console.log("Calling from main.js JACOB");
     var notification_area = new notificationarea.NotebookNotificationArea(
         '#notification_area', {
         events: events,

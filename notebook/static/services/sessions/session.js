@@ -108,6 +108,7 @@ define([
                 var kernel_service_url = utils.url_path_join(that.base_url, "api/kernels");
                 that.kernel = new kernel.Kernel(kernel_service_url, that.ws_url, that.kernel_model.name);
             }
+            console.log("JACOB: trigger kernel_created from session.js");
             that.events.trigger('kernel_created.Session', {session: that, kernel: that.kernel});
             that.kernel._kernel_created(data.kernel);
             if (success) {
