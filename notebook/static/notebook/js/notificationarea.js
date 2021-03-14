@@ -322,11 +322,21 @@ define([
 
             // waitReady(this);
 
-            that.events.on('kernel_ready.Kernel', function () {
-                console.log("JACOB: Testing Kernel Ready wait")
-            });
+            // that.events.on('kernel_ready.Kernel', function () {
+            //     console.log("JACOB: Testing Kernel Ready wait")
+            // });
 
-            console.log("Loading bar function finisheed");
+            async function waitReady() {
+                await that.events.on('kernel_ready.Kernel', function () {
+                    console.log("JACOB: waiting for kernel to be ready")
+                });
+                console.log("Done: kernel ready")
+                setTimeout(() => console.log("second"),2000); //added this line
+            }
+
+            waitReady().then(console.log("Loading bar function finished"));
+
+            
 
         });
 

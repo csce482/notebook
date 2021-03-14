@@ -396,7 +396,9 @@ class MappingKernelManager(MultiKernelManager):
                 kernels.append(model)
             except (web.HTTPError, KeyError):
                 pass  # Probably due to a (now) non-existent kernel, continue building the list
+        self.log.info("Jacob print list of kernels")
         return kernels
+        
 
     # override _check_kernel_id to raise 404 instead of KeyError
     def _check_kernel_id(self, kernel_id):
