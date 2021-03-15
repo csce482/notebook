@@ -68,8 +68,20 @@ define([
                         .attr('href', '#')
                         .click($.proxy(this.new_notebook, this, ks.name))
                         .text(ks.spec.display_name)
-                        .attr('title', i18n.sprintf(i18n._('Create a new notebook with %s'), ks.spec.display_name))
+                        .attr('title', i18n.sprintf(i18n._('Create a new notebook with HERE 2 %s'), ks.spec.display_name))
                 );
+            var li2 = $("<li>")
+            .attr("id", "kernel-" +ks.name + "-fast-freeze")
+            .data('kernelspec', ks).append(
+                $('<a>')
+                    .attr("aria-label", ks.name + "-fast-freeze")
+                    .attr("role", "menuitem")
+                    .attr('href', '#')
+                    .click($.proxy(this.new_notebook, this, ks.name))
+                    .text(ks.spec.display_name)
+                    .attr('title', i18n.sprintf(i18n._('Create a new notebook with %s fastfreeze checkpointing enabled'), ks.spec.display_name))
+            );
+            menu.after(li2); 
             menu.after(li);
         }
         this.events.trigger('kernelspecs_loaded.KernelSpec', data.kernelspecs);

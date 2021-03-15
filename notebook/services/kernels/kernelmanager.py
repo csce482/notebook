@@ -30,7 +30,6 @@ from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 from datetime import datetime
 import time
 
-from progress.bar import Bar
 
 # Since use of AsyncMultiKernelManager is optional at the moment, don't require appropriate jupyter_client.
 # This will be confirmed at runtime in notebookapp.  The following block can be removed once the jupyter_client's
@@ -179,7 +178,7 @@ class MappingKernelManager(MultiKernelManager):
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
             self.log.info(datetime.now()) #JACOB
-            bar = Bar('Processing', max = 20)
+            # bar = Bar('Processing', max = 20)
             kernel_id = await maybe_future(self.pinned_superclass.start_kernel(self, **kwargs))
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
