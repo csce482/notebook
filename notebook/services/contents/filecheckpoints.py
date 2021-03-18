@@ -151,7 +151,7 @@ class GenericFileCheckpoints(GenericCheckpointsMixin, FileCheckpoints):
         self.log.debug("creating checkpoint for %s", path)
         with self.perm_to_403():
             self._save_file(os_checkpoint_path, content, format=format)
-
+        print("CHECKPOINT FROM FILE")
         # return the checkpoint info
         return self.checkpoint_model(checkpoint_id, os_checkpoint_path)
 
@@ -166,6 +166,8 @@ class GenericFileCheckpoints(GenericCheckpointsMixin, FileCheckpoints):
             self._save_notebook(os_checkpoint_path, nb)
 
         # return the checkpoint info
+        # os.execv('~/fastfreeze/fastfreeze', )
+        print("CHECKPOINT FROM NOTEBOOK")
         return self.checkpoint_model(checkpoint_id, os_checkpoint_path)
 
     def get_notebook_checkpoint(self, checkpoint_id, path):
