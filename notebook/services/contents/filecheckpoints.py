@@ -54,6 +54,10 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         src_path = contents_mgr._get_os_path(path)
         dest_path = self.checkpoint_path(checkpoint_id, path)
         self._copy(src_path, dest_path)
+        print("----------------------------checkponiting-------------")
+        path = os.getcwd()
+        filecmd = '~/fastfreeze/fastfreeze checkpoint --image-url file:' + path + '/kernel0.img kernel0.img --leave-running'
+        os.system(filecmd)
         return self.checkpoint_model(checkpoint_id, dest_path)
 
     def restore_checkpoint(self, contents_mgr, checkpoint_id, path):
@@ -166,8 +170,6 @@ class GenericFileCheckpoints(GenericCheckpointsMixin, FileCheckpoints):
             self._save_notebook(os_checkpoint_path, nb)
 
         # return the checkpoint info
-        # os.execv('~/fastfreeze/fastfreeze', )
-        print("CHECKPOINT FROM NOTEBOOK")
         return self.checkpoint_model(checkpoint_id, os_checkpoint_path)
 
     def get_notebook_checkpoint(self, checkpoint_id, path):

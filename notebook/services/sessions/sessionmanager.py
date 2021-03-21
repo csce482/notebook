@@ -86,7 +86,7 @@ class SessionManager(LoggingConfigurable):
 
     def new_session_id(self):
         "Create a uuid for a new session"
-        return unicode_type(uuid.uuid4())
+        return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id'))
 
     @gen.coroutine
     def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):
