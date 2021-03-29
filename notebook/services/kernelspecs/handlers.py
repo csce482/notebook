@@ -9,6 +9,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-25%3A-
 import glob
 import json
 import os
+import copy
 pjoin = os.path.join
 
 from tornado import web, gen
@@ -63,6 +64,13 @@ class MainKernelSpecHandler(APIHandler):
         model['default'] = km.default_kernel_name
         model['kernelspecs'] = specs = {}
         kspecs = yield maybe_future(ksm.get_all_specs())
+
+        for kernel_name, kernel_info in list(kspecs.items()):
+            kernel_name = "{}-checkpoint".format(kernel_name)
+            kernel_info = copy.deepcopy(kernel_info)
+            kernel_info['spec']['display_name'] = "{} (with checkpointing)".format(kernel_info['spec']['display_name'])
+            kspecs[kernel_name] = kernel_info
+
         for kernel_name, kernel_info in kspecs.items():
             try:
                 if is_kernelspec_model(kernel_info):

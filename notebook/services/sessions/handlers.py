@@ -7,6 +7,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
+import os
 
 from tornado import gen, web
 
@@ -61,11 +62,22 @@ class SessionRootHandler(APIHandler):
             self.log.debug("No kernel specified, using default kernel")
             kernel_name = None
 
+
+        if kernel_name.endswith("-checkpoint"):
+            kernel_name = kernel_name.replace("-checkpoint", "")
+            os.environ["CHECKPOINT"] = "1"
+            self.log.warning('Checkpointing enabled')
+        else:
+            del os.environ["CHECKPOINT"]
+            self.log.warning('Checkpointing disable')
+
         exists = yield maybe_future(sm.session_exists(path=path))
         if exists:
             model = yield maybe_future(sm.get_session(path=path))
         else:
             try:
+                # TODO don't set environement variable, just pass it down to
+                # create_session()
                 model = yield maybe_future(
                     sm.create_session(path=path, kernel_name=kernel_name,
                                       kernel_id=kernel_id, name=name,
