@@ -227,7 +227,7 @@ class SessionManager(LoggingConfigurable):
         return kernel_id not in self.kernel_manager
 
     @gen.coroutine
-    def row_to_model(self, row, tolerate_culled=False):
+    def row_to_model(self, row, tolerate_culled=True):
         """Takes sqlite database session row and turns it into a dictionary"""
         kernel_culled = yield maybe_future(self.kernel_culled(row['kernel_id']))
         if kernel_culled:
@@ -238,8 +238,8 @@ class SessionManager(LoggingConfigurable):
             # If caller wishes to tolerate culled kernels, log a warning
             # and return None.  Otherwise, raise KeyError with a similar
             # message.
-            self.cursor.execute("DELETE FROM session WHERE session_id=?",
-                                (row['session_id'],))
+            #self.cursor.execute("DELETE FROM session WHERE session_id=?",
+             #                   (row['session_id'],))
             msg = "Kernel '{kernel_id}' appears to have been culled or died unexpectedly, " \
                   "invalidating session '{session_id}'. The session has been removed.".\
                 format(kernel_id=row['kernel_id'],session_id=row['session_id'])
@@ -280,6 +280,6 @@ class SessionManager(LoggingConfigurable):
     @gen.coroutine
     def delete_session(self, session_id):
         """Deletes the row in the session database with given session_id"""
-        session = yield maybe_future(self.get_session(session_id=session_id))
-        yield maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
-        self.cursor.execute("DELETE FROM session WHERE session_id=?", (session_id,))
+        #session = yield maybe_future(self.get_session(session_id=session_id))
+        #yield maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
+        #self.cursor.execute("DELETE FROM session WHERE session_id=?", (session_id,))
