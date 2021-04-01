@@ -2319,12 +2319,15 @@ define([
      */
     Notebook.prototype.shutdown_kernel = function (options) {
         var that = this;
+        // console.log("Trying to read env variable")
+        // console.log(process.env.CHECKPOINT)
         var shutdown_options = {};
         shutdown_options.confirm = (options || {}).confirm;
         shutdown_options.dialog = {
             title : "Shutdown kernel?",
             body : $("<p/>").text(
-                i18n.msg._('Do you want to shutdown the current kernel?  All variables will be lost.')
+                //ADD IF STATEMENT HERE
+                i18n.msg._('Do you want to shutdown the current kernel? Variables will be presereved with FastFreeze Checkpoint.')
             ),
             buttons : {
                 "Shutdown" : {
@@ -2345,7 +2348,8 @@ define([
         restart_options.dialog = {
             title : i18n.msg._("Restart kernel?"),
             body : $("<p/>").text(
-                i18n.msg._('Do you want to restart the current kernel?  All variables will be lost.')
+                //ADD IF STATEMENT HERE
+                i18n.msg._('Do you want to restart the current kernel?  Varialbes will be presereved with FastFreeze Checkpoint.')
             ),
             buttons : {
                 "Restart" : {

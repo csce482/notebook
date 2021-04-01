@@ -7,6 +7,7 @@ Preliminary documentation at https://github.com/ipython/ipython/wiki/IPEP-16%3A-
 # Distributed under the terms of the Modified BSD License.
 
 import json
+import os
 
 from tornado import gen, web
 
@@ -33,7 +34,8 @@ class SessionRootHandler(APIHandler):
         #(unless a session already exists for the named session)
         sm = self.session_manager
 
-        model = self.get_json_body()
+        model = self.get_json_body() #JACOB json
+        print('model: ', model)
         if model is None:
             raise web.HTTPError(400, "No JSON data provided")
 
@@ -54,18 +56,29 @@ class SessionRootHandler(APIHandler):
 
         name = model.get('name', None)
         kernel = model.get('kernel', {})
-        kernel_name = kernel.get('name', None)
+        kernel_name = kernel.get('name', None) #JACOB
+        print(kernel_name)
         kernel_id = kernel.get('id', None)
 
         if not kernel_id and not kernel_name:
             self.log.debug("No kernel specified, using default kernel")
             kernel_name = None
 
+        if kernel_name.endswith("-checkpoint"):
+            kernel_name = kernel_name.replace("-checkpoint", "")
+            os.environ["CHECKPOINT"] = "1"
+            self.log.warning('Checkpointing enabled')
+        else:
+            os.environ["CHECKPOINT"] = "0"
+            self.log.warning('Checkpointing disable')
+
+
         exists = yield maybe_future(sm.session_exists(path=path))
         if exists:
             model = yield maybe_future(sm.get_session(path=path))
         else:
             try:
+                #JACOB TODO pass down checkpointable as session variable
                 model = yield maybe_future(
                     sm.create_session(path=path, kernel_name=kernel_name,
                                       kernel_id=kernel_id, name=name,

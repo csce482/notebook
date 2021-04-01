@@ -19,6 +19,7 @@ from traitlets import Instance
 
 from notebook.utils import maybe_future
 from notebook.traittypes import InstanceFromClasses
+import os
 
 class SessionManager(LoggingConfigurable):
 
@@ -39,6 +40,9 @@ class SessionManager(LoggingConfigurable):
     _cursor = None
     _connection = None
     _columns = {'session_id', 'path', 'name', 'type', 'kernel_id'}
+    #_fastfreeze = False
+
+    #sm._fastfreeze
 
     @property
     def cursor(self):
@@ -86,7 +90,17 @@ class SessionManager(LoggingConfigurable):
 
     def new_session_id(self):
         "Create a uuid for a new session"
-        return unicode_type(uuid.uuid4())
+        #ADD IF STATEMENT HERE
+        #if ff == TRUE
+            #return  unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id'))
+        #else:
+            #return unicode_type(uuid.uuid4())
+        ff = os.environ["CHECKPOINT"]
+        self.log.warning("from new_session_id")
+        self.log.warning(ff)
+        #return unicode_type(uuid.uuid4()) OLD way to get UUIID
+        print('testing print UUID: ' ,unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')))
+        return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')) #this encodes the UUID JACOB
 
     @gen.coroutine
     def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):
@@ -107,6 +121,7 @@ class SessionManager(LoggingConfigurable):
         """Start a new kernel for a given session."""
         # allow contents manager to specify kernels cwd
         kernel_path = self.contents_manager.get_kernel_path(path=path)
+        #print("ROESHA", kernel_name)
         kernel_id = yield maybe_future(
             self.kernel_manager.start_kernel(path=kernel_path, kernel_name=kernel_name)
         )
@@ -227,7 +242,8 @@ class SessionManager(LoggingConfigurable):
         return kernel_id not in self.kernel_manager
 
     @gen.coroutine
-    def row_to_model(self, row, tolerate_culled=False):
+    #ADD IF STATEMENT HERE -- NOT
+    def row_to_model(self, row, tolerate_culled=True): #prev FALSE
         """Takes sqlite database session row and turns it into a dictionary"""
         kernel_culled = yield maybe_future(self.kernel_culled(row['kernel_id']))
         if kernel_culled:
@@ -238,8 +254,14 @@ class SessionManager(LoggingConfigurable):
             # If caller wishes to tolerate culled kernels, log a warning
             # and return None.  Otherwise, raise KeyError with a similar
             # message.
-            self.cursor.execute("DELETE FROM session WHERE session_id=?",
-                                (row['session_id'],))
+
+            #ADD IF STATEMENT HERE
+            # if ff == false: 
+            ff = os.environ["CHECKPOINT"]
+            self.log.warning("from row_to_model")
+            self.log.warning(ff)
+            #self.cursor.execute("DELETE FROM session WHERE session_id=?",
+            #                    (row['session_id'],))
             msg = "Kernel '{kernel_id}' appears to have been culled or died unexpectedly, " \
                   "invalidating session '{session_id}'. The session has been removed.".\
                 format(kernel_id=row['kernel_id'],session_id=row['session_id'])
@@ -280,6 +302,11 @@ class SessionManager(LoggingConfigurable):
     @gen.coroutine
     def delete_session(self, session_id):
         """Deletes the row in the session database with given session_id"""
-        session = yield maybe_future(self.get_session(session_id=session_id))
-        yield maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
-        self.cursor.execute("DELETE FROM session WHERE session_id=?", (session_id,))
+        ff = os.environ["CHECKPOINT"]
+        self.log.warning("from delete_session")
+        self.log.warning(ff)
+        # ADD IF STATEMENT HERE
+        # if ff == false 
+        # session = yield maybe_future(self.get_session(session_id=session_id))
+        # yield maybe_future(self.kernel_manager.shutdown_kernel(session['kernel']['id']))
+        # self.cursor.execute("DELETE FROM session WHERE session_id=?", (session_id,))

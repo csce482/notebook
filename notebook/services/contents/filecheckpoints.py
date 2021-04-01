@@ -54,6 +54,16 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         src_path = contents_mgr._get_os_path(path)
         dest_path = self.checkpoint_path(checkpoint_id, path)
         self._copy(src_path, dest_path)
+        #ADD IF STATEMENT HERE
+        #if ff == true:
+        ff = os.environ["CHECKPOINT"]
+        self.log.warning("from create_checkpoint")
+        self.log.warning(ff)
+        print("----------------------------checkpointing-------------") #changes made by ALisah
+        path = os.getcwd()
+        print('path from notebook: ', path)
+        filecmd = '~/fastfreeze/fastfreeze checkpoint --image-url file:' + path + '/kernel3.img kernel3.img --leave-running'
+        os.system(filecmd)
         return self.checkpoint_model(checkpoint_id, dest_path)
 
     def restore_checkpoint(self, contents_mgr, checkpoint_id, path):

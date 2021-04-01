@@ -611,7 +611,7 @@ class APIHandler(IPythonHandler):
                 reply['message'] = e.log_message or message
                 reply['reason'] = e.reason
             else:
-                reply['message'] = 'Unhandled error'
+                reply['message'] = 'FastFreeze Error: You may only have one notebook running at time. Please shutdown your other notebooks.'
                 reply['reason'] = None
                 reply['traceback'] = ''.join(traceback.format_exception(*exc_info))
         self.log.warning(reply['message'])

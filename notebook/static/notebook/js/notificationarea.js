@@ -98,13 +98,14 @@ define([
         });
 
         this.events.on('kernel_reconnecting.Kernel', function () {
-            knw.warning(i18n.msg._("Connecting to kernel"));
+            //ADD IF STATEMENT HERE
+            knw.danger(i18n.msg._("Please wait, FastFreeze is connecting to kernel"));
         });
 
         this.events.on('kernel_connection_dead.Kernel', function (evt, info) {
-            knw.danger(i18n.msg._("Not Connected"), undefined, function () {
+            knw.danger(i18n.msg._("FF Error: Unable to restore kernel"), undefined, function () {
                 // schedule reconnect a short time in the future, don't reconnect immediately
-                setTimeout($.proxy(info.kernel.reconnect, info.kernel), 500);
+                //setTimeout($.proxy(info.kernel.reconnect, info.kernel), 500);
             }, {title: i18n.msg._('click to reconnect')});
         });
 
@@ -153,6 +154,7 @@ define([
         });
 
         this.events.on('kernel_disconnected.Kernel', function () {
+            knw.warning(i18n.msg._("FastFreeze failed to connect to kernel"));
             $kernel_ind_icon
                 .attr('class', 'kernel_disconnected_icon')
                 .attr('title', i18n.msg._('No Connection to Kernel'));
@@ -163,14 +165,16 @@ define([
             // connect attempt, because the kernel will continue
             // trying to reconnect and we don't want to spam the user
             // with messages
-            if (info.attempt === 1) {
+            if (info.attempt > 0) { //previously set as info.attempt === 1
 
-                var msg = i18n.msg._("A connection to the notebook server could not be established." +
-                        " The notebook will continue trying to reconnect. Check your" +
-                        " network connection or notebook server configuration.");
+                // var msg = i18n.msg._("A connection to the notebook server could not be established." +
+                //         " The notebook will continue trying to reconnect. Check your" +
+                //         " network connection or notebook server configuration.");
+
+                var msg = i18n.msg._("Connection failed. FastFreeze was not able to relaunch your previously checkpointed Kernel");
 
                 var the_dialog = dialog.kernel_modal({
-                    title: i18n.msg._("Connection failed"),
+                    title: i18n.msg._("FastFreeze Error: Connection failed. FastFreeze was not able to relaunch your previously checkpointed Kernel"),
                     body: msg,
                     keyboard_manager: that.keyboard_manager,
                     notebook: that.notebook,
@@ -244,7 +248,7 @@ define([
 
         this.events.on('kernel_dead.Session', function (evt, info) {
             var full = info.xhr.responseJSON.message;
-            var short = info.xhr.responseJSON.short_message || 'Kernel error';
+            var short = info.xhr.responseJSON.short_message || 'FastFreeze Error. Click me!';
             var traceback = info.xhr.responseJSON.traceback;
 
             var showMsg = function () {
@@ -301,7 +305,7 @@ define([
             // that.save_widget.update_document_title();
             console.log("Jacob: kernel_ready event is caught")
             $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title',i18n.msg._('Kernel Idle'));
-            knw.info(i18n.msg._("Kernel ready Jacob"), 500);
+            knw.info(i18n.msg._("FastFreeze Enabled: Kernel ready"), 500);
             set_busy_favicon(false);
         });
 
@@ -395,7 +399,7 @@ define([
         
         // Checkpoint events
         this.events.on('checkpoint_created.Notebook', function (evt, data) {
-            var msg = i18n.msg._("Checkpoint created");
+            var msg = i18n.msg._("FastFreeze: Checkpoint completed");
             if (data.last_modified) {
                 var d = new Date(data.last_modified);
                 msg = msg + ": " + moment(d).format("HH:mm:ss");
