@@ -88,9 +88,15 @@ class SessionManager(LoggingConfigurable):
                 exists = True
         raise gen.Return(exists)
 
-    def new_session_id(self):
+    def new_session_id(self, kernel_name=""):
         "Create a uuid for a new session"
-        #ADD IF STATEMENT HERE
+        self.log.warning("==========from session manager ROESHA")
+        self.log.warning(kernel_name)
+        #ADD IF STATEMENT HERE 
+        if kernel_name.endswith("-checkpoint"):
+            self.log.warning(kernel_name)
+        else:
+            self.log.warning(kernel_name)
         #if ff == TRUE
             #return  unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id'))
         #else:
@@ -103,7 +109,7 @@ class SessionManager(LoggingConfigurable):
     @gen.coroutine
     def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):
         """Creates a session and returns its model"""
-        session_id = self.new_session_id()
+        session_id = self.new_session_id(kernel_name)
         if kernel_id is not None and kernel_id in self.kernel_manager:
             pass
         else:

@@ -2329,6 +2329,7 @@ define([
             title : "Shutdown kernel?",
             body : $("<p/>").text(
                 //ADD IF STATEMENT HERE
+                //console.log('checkpoint enabled? ', that.kernel.checkpoint_enabled())
                 i18n.msg._('Do you want to shutdown the current kernel? Variables will be presereved with FastFreeze Checkpoint.')
             ),
             buttons : {
