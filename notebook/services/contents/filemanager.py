@@ -37,6 +37,9 @@ from notebook.transutils import _
 
 from os.path import samefile
 
+#from jupyter_client.kernelspec import KernelSpecManager, NATIVE_KERNEL_NAME
+from jupyter_client.kernelspec import KernelSpecManager
+
 _script_exporter = None
 
 
@@ -469,8 +472,12 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         self.log.debug("Saving %s", os_path)
 
         self.run_pre_save_hook(model=model, path=path)
+        #self.log.info("Calling from Save Function")
+        #self.log.info(KernelSpecManager.find_kernel_specs(self))
 
         try:
+            self.log.info("FILE MANAGER ROESHA")
+            self.log.info(model)
             if model['type'] == 'notebook':
                 nb = nbformat.from_dict(model['content'])
                 self.check_and_sign(nb, path)
@@ -502,6 +509,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             model['message'] = validation_message
 
         self.run_post_save_hook(model=model, os_path=os_path)
+        self.log.info(model)
 
         return model
 

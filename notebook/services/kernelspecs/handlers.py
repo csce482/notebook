@@ -76,7 +76,6 @@ class MainKernelSpecHandler(APIHandler):
         for kernel_name, kernel_info in kspecs.items():
             try:
                 self.log.info("notebook/handlers.py")
-                #self.log.info(os.environ["CHECKPOINT"])
                 self.log.info(kernel_name)
                 if is_kernelspec_model(kernel_info):
                     d = kernel_info

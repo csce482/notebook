@@ -56,9 +56,7 @@ class FileCheckpoints(FileManagerMixin, Checkpoints):
         self._copy(src_path, dest_path)
         #ADD IF STATEMENT HERE
         #if ff == true:
-        ff = os.environ["CHECKPOINT"]
         self.log.warning("from create_checkpoint")
-        self.log.warning(ff)
         print("----------------------------checkpointing-------------") #changes made by ALisah
         path = os.getcwd()
         print('path from notebook: ', path)

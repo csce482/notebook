@@ -95,9 +95,7 @@ class SessionManager(LoggingConfigurable):
             #return  unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id'))
         #else:
             #return unicode_type(uuid.uuid4())
-        ff = os.environ["CHECKPOINT"]
         self.log.warning("from new_session_id")
-        self.log.warning(ff)
         #return unicode_type(uuid.uuid4()) OLD way to get UUIID
         print('testing print UUID: ' ,unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')))
         return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')) #this encodes the UUID JACOB
@@ -257,9 +255,7 @@ class SessionManager(LoggingConfigurable):
 
             #ADD IF STATEMENT HERE
             # if ff == false: 
-            ff = os.environ["CHECKPOINT"]
             self.log.warning("from row_to_model")
-            self.log.warning(ff)
             #self.cursor.execute("DELETE FROM session WHERE session_id=?",
             #                    (row['session_id'],))
             msg = "Kernel '{kernel_id}' appears to have been culled or died unexpectedly, " \
@@ -302,9 +298,7 @@ class SessionManager(LoggingConfigurable):
     @gen.coroutine
     def delete_session(self, session_id):
         """Deletes the row in the session database with given session_id"""
-        ff = os.environ["CHECKPOINT"]
         self.log.warning("from delete_session")
-        self.log.warning(ff)
         # ADD IF STATEMENT HERE
         # if ff == false 
         # session = yield maybe_future(self.get_session(session_id=session_id))

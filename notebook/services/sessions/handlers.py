@@ -63,14 +63,7 @@ class SessionRootHandler(APIHandler):
         if not kernel_id and not kernel_name:
             self.log.debug("No kernel specified, using default kernel")
             kernel_name = None
-
-        if kernel_name.endswith("-checkpoint"):
-            kernel_name = kernel_name.replace("-checkpoint", "")
-            os.environ["CHECKPOINT"] = "1"
-            self.log.warning('Checkpointing enabled')
-        else:
-            os.environ["CHECKPOINT"] = "0"
-            self.log.warning('Checkpointing disable')
+    
 
 
         exists = yield maybe_future(sm.session_exists(path=path))

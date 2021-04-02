@@ -73,6 +73,7 @@ define([
         this._pending_messages = [];
     };
 
+
     /**
      * @function _get_msg
      */
@@ -91,6 +92,13 @@ define([
             parent_header : {}
         };
         return msg;
+    };
+
+     /**
+     * @function checkpoint_enabled
+     */
+      Kernel.prototype.checkpoint_enabled = function () {
+        return this.name.endsWith("-checkpoint");
     };
 
     /**

@@ -2319,8 +2319,10 @@ define([
      */
     Notebook.prototype.shutdown_kernel = function (options) {
         var that = this;
+        console.log('checkpoint enabled? ', that.kernel.checkpoint_enabled())
         // console.log("Trying to read env variable")
-        // console.log(process.env.CHECKPOINT)
+        //display_name = that.metadata.kernelspec.display_name
+        console.log('checkpoint test:',that.metadata.kernelspec.display_name)
         var shutdown_options = {};
         shutdown_options.confirm = (options || {}).confirm;
         shutdown_options.dialog = {
