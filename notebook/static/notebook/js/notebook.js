@@ -2319,7 +2319,7 @@ define([
      */
     Notebook.prototype.shutdown_kernel = function (options) {
         var that = this;
-        console.log('checkpoint enabled? ', that.kernel.checkpoint_enabled())
+        console.log('checkpoint enabled shutdown kernel? ', that.kernel.checkpoint_enabled())
         // console.log("Trying to read env variable")
         //display_name = that.metadata.kernelspec.display_name
         console.log('checkpoint test:',that.metadata.kernelspec.display_name)
@@ -2347,6 +2347,8 @@ define([
 
     Notebook.prototype.restart_kernel = function (options) {
         var restart_options = {};
+        var that = this;
+        console.log('checkpoint enabled restart kernel? ', that.kernel.checkpoint_enabled())
         restart_options.confirm = (options || {}).confirm;
         restart_options.dialog = {
             title : i18n.msg._("Restart kernel?"),

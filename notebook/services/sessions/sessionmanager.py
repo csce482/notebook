@@ -94,8 +94,10 @@ class SessionManager(LoggingConfigurable):
         self.log.warning(kernel_name)
         #ADD IF STATEMENT HERE 
         if kernel_name.endswith("-checkpoint"):
+            self.log.warning("Checkpointing Enabled")
             self.log.warning(kernel_name)
         else:
+            self.log.warning("Checkpointing disabled")
             self.log.warning(kernel_name)
         #if ff == TRUE
             #return  unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id'))
@@ -115,7 +117,7 @@ class SessionManager(LoggingConfigurable):
         else:
             kernel_id = yield self.start_kernel_for_session(session_id, path, name, type, kernel_name)
         result = yield maybe_future(
-            self.save_session(session_id, path=path, name=name, type=type, kernel_id=kernel_id)
+            self.save_session(session_id, path=path, name=name, type=type, kernel_id=kernel_id, kernel_name=kernel_name)
         )
         # py2-compat
         raise gen.Return(result)
@@ -133,7 +135,7 @@ class SessionManager(LoggingConfigurable):
         raise gen.Return(kernel_id)
 
     @gen.coroutine
-    def save_session(self, session_id, path=None, name=None, type=None, kernel_id=None):
+    def save_session(self, session_id, path=None, name=None, type=None, kernel_id=None, kernel_name=None):
         """Saves the items for the session with the given session_id
 
         Given a session_id (and any other of the arguments), this method
@@ -161,11 +163,11 @@ class SessionManager(LoggingConfigurable):
         self.cursor.execute("INSERT INTO session VALUES (?,?,?,?,?)",
             (session_id, path, name, type, kernel_id)
         )
-        result = yield maybe_future(self.get_session(session_id=session_id))
+        result = yield maybe_future(self.get_session(session_id=session_id, kernel_name=kernel_name))
         raise gen.Return(result)
 
     @gen.coroutine
-    def get_session(self, **kwargs):
+    def get_session(self, kernel_name=None, **kwargs):
         """Returns the model for a particular session.
 
         Takes a keyword argument and searches for the value in the session
@@ -208,7 +210,7 @@ class SessionManager(LoggingConfigurable):
 
             raise web.HTTPError(404, u'Session not found: %s' % (', '.join(q)))
 
-        model = yield maybe_future(self.row_to_model(row))
+        model = yield maybe_future(self.row_to_model(row,kernel_name))
         raise gen.Return(model)
 
     @gen.coroutine
@@ -247,7 +249,7 @@ class SessionManager(LoggingConfigurable):
 
     @gen.coroutine
     #ADD IF STATEMENT HERE -- NOT
-    def row_to_model(self, row, tolerate_culled=True): #prev FALSE
+    def row_to_model(self, row, kernel_name=None, tolerate_culled=True): #prev FALSE
         """Takes sqlite database session row and turns it into a dictionary"""
         kernel_culled = yield maybe_future(self.kernel_culled(row['kernel_id']))
         if kernel_culled:
@@ -258,10 +260,17 @@ class SessionManager(LoggingConfigurable):
             # If caller wishes to tolerate culled kernels, log a warning
             # and return None.  Otherwise, raise KeyError with a similar
             # message.
+            self.log.warning("From row_to_model")
+            if kernel_name.endswith("-checkpoint"):
+                self.log.warning("Checkpointing Enabled")
+                self.log.warning(kernel_name)
+            else:
+                self.log.warning("Checkpointing disabled")
+                self.log.warning(kernel_name)
 
             #ADD IF STATEMENT HERE
             # if ff == false: 
-            self.log.warning("from row_to_model")
+            #self.log.warning("from row_to_model")
             #self.cursor.execute("DELETE FROM session WHERE session_id=?",
             #                    (row['session_id'],))
             msg = "Kernel '{kernel_id}' appears to have been culled or died unexpectedly, " \
