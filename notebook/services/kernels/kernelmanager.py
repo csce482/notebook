@@ -30,7 +30,7 @@ from notebook.prometheus.metrics import KERNEL_CURRENTLY_RUNNING_TOTAL
 from datetime import datetime
 import time
 
-from progress.bar import Bar
+#from progress.bar import Bar
 
 # Since use of AsyncMultiKernelManager is optional at the moment, don't require appropriate jupyter_client.
 # This will be confirmed at runtime in notebookapp.  The following block can be removed once the jupyter_client's
