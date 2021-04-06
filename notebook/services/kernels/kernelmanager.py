@@ -161,7 +161,6 @@ class MappingKernelManager(MultiKernelManager):
         return os_path
 
     async def start_kernel(self, kernel_id=None, path=None, **kwargs):
-        print('called start_kernel JACOB')
         """Start a kernel for a session and return its kernel_id.
         Parameters
         ----------
@@ -180,19 +179,18 @@ class MappingKernelManager(MultiKernelManager):
         if kernel_id is None:
             if path is not None:
                 kwargs['cwd'] = self.cwd_for_path(path)
-            self.log.info(datetime.now()) #JACOB
-            bar = Bar('Processing', max = 20)
+            #bar = Bar('Processing', max = 20)
             #print(type(self.pinned_superclass))
             kernel_id = await maybe_future(self.pinned_superclass.start_kernel(self, **kwargs))
             self._kernel_connections[kernel_id] = 0
             self.start_watching_activity(kernel_id)
-            time.sleep(3)
-            bar.next()
-            bar.finish()
-            self.log.info("Kernel started Jacob: %s, name: %s" % (kernel_id, self._kernels[kernel_id].kernel_name))
-            self.log.info(datetime.now())
-            self.log.debug("Kernel args Jacob: %r" % kwargs)
-            self.log.debug("JACOB: kernel name: %s"  % kwargs['kernel_name'])
+            #time.sleep(3)
+            #bar.next()
+            #bar.finish()
+            #self.log.info("Kernel started Jacob: %s, name: %s" % (kernel_id, self._kernels[kernel_id].kernel_name))
+            #self.log.info(datetime.now())
+            #self.log.debug("Kernel args Jacob: %r" % kwargs)
+            #self.log.debug("JACOB: kernel name: %s"  % kwargs['kernel_name'])
             # register callback for failed auto-restart
             self.add_restart_callback(kernel_id,
                 lambda : self._handle_kernel_died(kernel_id),
@@ -400,7 +398,7 @@ class MappingKernelManager(MultiKernelManager):
                 kernels.append(model)
             except (web.HTTPError, KeyError):
                 pass  # Probably due to a (now) non-existent kernel, continue building the list
-        self.log.info("Jacob print list of kernels")
+        #self.log.info("Jacob print list of kernels")
         return kernels
         
 

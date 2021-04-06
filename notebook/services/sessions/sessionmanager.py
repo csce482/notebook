@@ -90,22 +90,22 @@ class SessionManager(LoggingConfigurable):
 
     def new_session_id(self, kernel_name=""):
         "Create a uuid for a new session"
-        self.log.warning("==========from session manager ROESHA")
-        self.log.warning(kernel_name)
+        #self.log.warning("==========from session manager ROESHA")
+        #self.log.warning(kernel_name)
         #ADD IF STATEMENT HERE 
-        if kernel_name.endswith("-checkpoint"):
-            self.log.warning("Checkpointing Enabled")
-            self.log.warning(kernel_name)
-        else:
-            self.log.warning("Checkpointing disabled")
-            self.log.warning(kernel_name)
+        # if kernel_name.endswith("-checkpoint"):
+        #     self.log.warning("Checkpointing Enabled")
+        #     self.log.warning(kernel_name)
+        # else:
+        #     self.log.warning("Checkpointing disabled")
+        #     self.log.warning(kernel_name)
         #if ff == TRUE
             #return  unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id'))
         #else:
             #return unicode_type(uuid.uuid4())
-        self.log.warning("from new_session_id")
+        #self.log.warning("from new_session_id")
         #return unicode_type(uuid.uuid4()) OLD way to get UUIID
-        print('testing print UUID: ' ,unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')))
+        #print('testing print UUID: ' ,unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')))
         return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')) #this encodes the UUID JACOB
 
     @gen.coroutine
@@ -260,13 +260,13 @@ class SessionManager(LoggingConfigurable):
             # If caller wishes to tolerate culled kernels, log a warning
             # and return None.  Otherwise, raise KeyError with a similar
             # message.
-            self.log.warning("From row_to_model")
-            if kernel_name.endswith("-checkpoint"):
-                self.log.warning("Checkpointing Enabled")
-                self.log.warning(kernel_name)
-            else:
-                self.log.warning("Checkpointing disabled")
-                self.log.warning(kernel_name)
+            #self.log.warning("From row_to_model")
+            # if kernel_name.endswith("-checkpoint"):
+            #     self.log.warning("Checkpointing Enabled")
+            #     self.log.warning(kernel_name)
+            # else:
+            #     self.log.warning("Checkpointing disabled")
+            #     self.log.warning(kernel_name)
 
             #ADD IF STATEMENT HERE
             # if ff == false: 
@@ -313,7 +313,7 @@ class SessionManager(LoggingConfigurable):
     @gen.coroutine
     def delete_session(self, session_id):
         """Deletes the row in the session database with given session_id"""
-        self.log.warning("from delete_session")
+        #self.log.warning("from delete_session")
         # ADD IF STATEMENT HERE
         # if ff == false 
         # session = yield maybe_future(self.get_session(session_id=session_id))

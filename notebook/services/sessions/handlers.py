@@ -35,7 +35,6 @@ class SessionRootHandler(APIHandler):
         sm = self.session_manager
 
         model = self.get_json_body() #JACOB json
-        print('model: ', model)
         if model is None:
             raise web.HTTPError(400, "No JSON data provided")
 
@@ -57,7 +56,6 @@ class SessionRootHandler(APIHandler):
         name = model.get('name', None)
         kernel = model.get('kernel', {})
         kernel_name = kernel.get('name', None) #JACOB
-        print(kernel_name)
         kernel_id = kernel.get('id', None)
 
         if not kernel_id and not kernel_name:

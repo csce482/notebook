@@ -404,8 +404,6 @@ class GatewayKernelManager(AsyncMappingKernelManager):
             response = await gateway_request(kernel_url, method='POST', body=json_body)
             kernel = json_decode(response.body)
             kernel_id = kernel['id']
-            self.log.info("Kernel started Jacob 2: %s" % kernel_id)
-            self.log.debug("Kernel args: %r" % kwargs)
         else:
             kernel = await self.get_kernel(kernel_id)
             kernel_id = kernel['id']

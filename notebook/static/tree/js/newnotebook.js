@@ -35,20 +35,18 @@ define([
         /** request and then load kernel specs */
         var url = utils.url_path_join(this.base_url, 'api/kernelspecs');
         utils.promising_ajax(url).then($.proxy(this._load_kernelspecs, this));
-        console.log('finished request_kernelspecs')
     };
     
     NewNotebookWidget.prototype._load_kernelspecs = function (data) {
         /** load kernelspec list */
         var that = this;
         this.kernelspecs = data.kernelspecs;
-        console.log('printing kernelsepc' + this.kernelspecs)
         var menu = this.element.find("#notebook-kernels");
         var keys = Object.keys(data.kernelspecs).sort(function (a, b) {
             var da = data.kernelspecs[a].spec.display_name;
-            console.log('da: ' + da)
+            //console.log('da: ' + da)
             var db = data.kernelspecs[b].spec.display_name;
-            console.log('db: ' + db)
+            //console.log('db: ' + db)
 
             if (da === db) {
                 return 0;
@@ -64,7 +62,7 @@ define([
         // to the top of the list.
         for (var i = keys.length - 1; i >= 0; i--) {
             var ks = this.kernelspecs[keys[i]];
-            console.log('ks:', ks)
+            //console.log('ks:', ks)
             var li = $("<li>")
                 .attr("id", "kernel-" +ks.name)
                 .data('kernelspec', ks).append(

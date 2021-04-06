@@ -476,8 +476,8 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         #self.log.info(KernelSpecManager.find_kernel_specs(self))
 
         try:
-            self.log.info("FILE MANAGER ROESHA")
-            self.log.info(model)
+            #self.log.info("FILE MANAGER ROESHA")
+            #self.log.info(model)
             if model['type'] == 'notebook':
                 nb = nbformat.from_dict(model['content'])
                 self.check_and_sign(nb, path)

@@ -132,7 +132,7 @@ casper.notebook_test(function () {
     // markdown referencing them)
     this.thenEvaluate(function(nbname) {
         Jupyter._checkpoint_created = false;
-        Console.log("JACOB HERE 2");
+        
         require(['base/js/events'], function (events) {
             events.on('checkpoint_created.Notebook', function (evt, data) {
                 Jupyter._checkpoint_created = true;

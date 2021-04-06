@@ -58,7 +58,7 @@ class MainKernelSpecHandler(APIHandler):
     @web.authenticated
     @gen.coroutine
     def get(self):
-        self.log.info("Called get from kernelspechandler")
+        #self.log.info("Called get from kernelspechandler")
         ksm = self.kernel_spec_manager
         km = self.kernel_manager
         model = {}
@@ -75,8 +75,8 @@ class MainKernelSpecHandler(APIHandler):
 
         for kernel_name, kernel_info in kspecs.items():
             try:
-                self.log.info("notebook/handlers.py")
-                self.log.info(kernel_name)
+                #self.log.info("notebook/handlers.py")
+                #self.log.info(kernel_name)
                 if is_kernelspec_model(kernel_info):
                     d = kernel_info
                 else:

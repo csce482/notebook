@@ -2319,10 +2319,10 @@ define([
      */
     Notebook.prototype.shutdown_kernel = function (options) {
         var that = this;
-        console.log('checkpoint enabled shutdown kernel? ', that.kernel.checkpoint_enabled())
+        //console.log('checkpoint enabled shutdown kernel? ', that.kernel.checkpoint_enabled())
         // console.log("Trying to read env variable")
         //display_name = that.metadata.kernelspec.display_name
-        console.log('checkpoint test:',that.metadata.kernelspec.display_name)
+        //console.log('checkpoint test:',that.metadata.kernelspec.display_name)
         var shutdown_options = {};
         shutdown_options.confirm = (options || {}).confirm;
         shutdown_options.dialog = {
@@ -2348,7 +2348,7 @@ define([
     Notebook.prototype.restart_kernel = function (options) {
         var restart_options = {};
         var that = this;
-        console.log('checkpoint enabled restart kernel? ', that.kernel.checkpoint_enabled())
+        //console.log('checkpoint enabled restart kernel? ', that.kernel.checkpoint_enabled())
         restart_options.confirm = (options || {}).confirm;
         restart_options.dialog = {
             title : i18n.msg._("Restart kernel?"),
@@ -2724,7 +2724,6 @@ define([
      *
      */
     Notebook.prototype.save_notebook = function (check_last_modified) {
-        console.log("notebook.js save_notebook function") // JACOB2 
         if (check_last_modified === undefined) {
             check_last_modified = true;
         }
@@ -2759,9 +2758,8 @@ define([
 
         var that = this;
         var _save = function () {
-            console.log("_save in notebook.js Tesing Here? JACOB" + " " + hour + ":" + min + ":" + second + ":" + miliSec);  //i dont think it comes here either
-            console.log("that.notebook_path: " + that.notebook_path)
-            console.log("model: " + model)
+            //console.log("that.notebook_path: " + that.notebook_path)
+            //console.log("model: " + model)
             return that.contents.save(that.notebook_path, model).then( //JACOB WHATDOESTHISLINEDO?
                 $.proxy(that.save_notebook_success, that, start),
                 function (error) {
@@ -3352,7 +3350,6 @@ define([
         var min = date.getMinutes();
         var second = date.getSeconds();
         var miliSec = date.getMilliseconds();
-        console.log("Pressed Save Button" + " " + hour + ":" + min + ":" + second + ":" + miliSec); //JACOB
         this._checkpoint_after_save = true;
         return this.save_notebook(true);
     };

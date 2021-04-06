@@ -150,7 +150,7 @@ class ContentsHandler(APIHandler):
     @gen.coroutine
     def _new_untitled(self, path, type='', ext=''):
         """Create a new, empty untitled entity"""
-        self.log.info(u"Creating new %s in %s", type or 'file', path)
+        #self.log.info(u"Creating new %s in %s", type or 'file', path)
         # self.log.info(u"Creating new %s in %s", type or 'file', path)
         model = yield maybe_future(self.contents_manager.new_untitled(path=path, type=type, ext=ext))
         self.set_status(201)
@@ -162,9 +162,9 @@ class ContentsHandler(APIHandler):
     def _save(self, model, path):
         """Save an existing file."""
         chunk = model.get("chunk", None) 
-        self.log.info("_save in handlers.py")  
+        #self.log.info("_save in handlers.py")  
         if not chunk or chunk == -1:  # Avoid tedious log information
-            self.log.info(u"Saving file _JACOBS_ at %s", path)  
+            self.log.info(u"Saving file at %s", path)  
             #self.log.info(u"TESTING TESTING %s", path)
         model = yield maybe_future(self.contents_manager.save(model, path))
         validate_model(model, expect_content=False)
@@ -220,14 +220,12 @@ class ContentsHandler(APIHandler):
           in `content` key of JSON request body. If content is not specified,
           create a new empty notebook.
         """
-        self.log.info(u"Pressed Save Button Jacob %s",path)
         model = self.get_json_body()
         if model:
             if model.get('copy_from'):
                 raise web.HTTPError(400, "Cannot copy with PUT, only POST")
             exists = yield maybe_future(self.contents_manager.file_exists(path))
             if exists:
-                self.log.info(u"Entered Save Button Jacob %s",path)
                 yield maybe_future(self._save(model, path)) #JACOB if it exists then it calls the save function.checkpoint
             else:
                 yield maybe_future(self._upload(model, path)) #checkpoint

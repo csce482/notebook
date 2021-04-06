@@ -42,7 +42,6 @@ class MainKernelHandler(APIHandler):
             }
         else:
             model.setdefault('name', km.default_kernel_name)
-        self.log.info("Here TEst Jacob Kernel Handler")
         kernel_id = yield maybe_future(km.start_kernel(kernel_name=model['name']))
         model = yield maybe_future(km.kernel_model(kernel_id))
         location = url_path_join(self.base_url, 'api', 'kernels', url_escape(kernel_id))

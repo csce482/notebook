@@ -197,7 +197,6 @@ define([
         if (qs !== "") {
             url = url + "?" + qs;
         }
-        console.log("JACOB: trigger kernel start 1")
         this.events.trigger('kernel_starting.Kernel', {kernel: this});
         var that = this;
         var on_success = function (data, status, xhr) {
@@ -321,7 +320,6 @@ define([
 
         var that = this;
         var on_success = function (data, status, xhr) {
-            console.log("JACOB: trigger kernel_created 2");
             that.events.trigger('kernel_created.Kernel', {kernel: that});
             that._kernel_created(data);
             if (success) {
@@ -440,7 +438,6 @@ define([
         }
 
         // get kernel info so we know what state the kernel is in
-        console.log("Jacob: trigger kernel_ready from kernel.js")
         var that = this;
         this.kernel_info(function (reply) {
             that.info_reply = reply.content; //this calls the record_status function above at line 106
@@ -470,7 +467,6 @@ define([
         this.stop_channels();
         var ws_host_url = this.ws_url + this.kernel_url;
 
-        console.log("Jacob Starting WebSockets:", ws_host_url);
 
         this.ws = new this.WebSocket([
                 that.ws_url,
@@ -1107,7 +1103,6 @@ define([
             this.events.trigger('kernel_idle.Kernel', {kernel: this});
 
         } else if (execution_state === 'starting') {
-            console.log("JACOB: Trigger kernel start")
             this.events.trigger('kernel_starting.Kernel', {kernel: this});
             var that = this;
             this.kernel_info(function (reply) {

@@ -12,7 +12,6 @@ define([
     var NotificationArea = notificationarea.NotificationArea;
     
     var NotebookNotificationArea = function(selector, options) {
-        console.log("Calling from notifactionarea constructor");
         NotificationArea.apply(this, [selector, options]);
         this.save_widget = options.save_widget;
         this.notebook = options.notebook;
@@ -63,7 +62,6 @@ define([
 
         // Listen for the notebook loaded event.  Set readonly indicator.
         this.events.on('notebook_loaded.Notebook', function() {
-            console.log("JACOB: notebook loaded");
             if (that.notebook.writable) {
                 $readonly_ind_icon.hide();
             } else {
@@ -204,7 +202,7 @@ define([
 
         this.events.on('kernel_killed.Kernel kernel_killed.Session', function () {
             that.save_widget.update_document_title();
-            knw.warning(i18n.msg._("No kernel Jacob 2"));
+            knw.warning(i18n.msg._("No kernel"));
             $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',i18n.msg._('Kernel is not running'));
         });
 
@@ -300,9 +298,7 @@ define([
         
         this.events.on('kernel_starting.Kernel kernel_created.Session', function () {
             // window.document.title='(Starting) '+window.document.title;
-            console.log("JACOB: caught kernel_created event");
-            console.log("JACOB: Kernel starting, please wait");
-            console.log(that);
+            
             $kernel_ind_icon.attr('class','kernel_busy_icon').attr('title',i18n.msg._('Kernel Busy'));
             knw.set_message(i18n.msg._("Kernel starting, please wait..."),500);
             //knw.info(i18n.msg._("Kernel starting, please wait..."), 5000); //i added this line
@@ -314,7 +310,7 @@ define([
         this.events.on('kernel_ready.Kernel', function () {
             // that.save_widget.update_document_title();
             //ADD IF STATEMENT HERE
-            console.log("Jacob: kernel_ready event is caught")
+            //console.log("Jacob: kernel_ready event is caught")
             // var that = this;
             // console.log('checkpoint enabled kernel ready? ', that.kernel.checkpoint_enabled())
             $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title',i18n.msg._('Kernel Idle'));
@@ -324,9 +320,9 @@ define([
 
         //this is where the loading bar will go JACOB
         this.events.on( 'kernel_starting.Kernel kernel_created.Session', function (){
-            console.log("JACOB: caight kernel_starting or kernel_created")
+            //console.log("JACOB: caight kernel_starting or kernel_created")
             //console.log(this.events)
-            console.log("Loading bar function called");
+            //console.log("Loading bar function called");
             // return new Promise(function() {
             //     once
             // });
@@ -343,15 +339,15 @@ define([
             //     console.log("JACOB: Testing Kernel Ready wait")
             // });
 
-            async function waitReady() {
-                await that.events.on('kernel_ready.Kernel', function () {
-                    console.log("JACOB: waiting for kernel to be ready")
-                });
-                console.log("Done: kernel ready")
-                setTimeout(() => console.log("second"),2000); //added this line
-            }
+            // async function waitReady() {
+            //     await that.events.on('kernel_ready.Kernel', function () {
+            //         console.log("JACOB: waiting for kernel to be ready")
+            //     });
+            //     console.log("Done: kernel ready")
+            //     setTimeout(() => console.log("second"),2000); //added this line
+            // }
 
-            waitReady().then(console.log("Loading bar function finished"));
+            // waitReady().then(console.log("Loading bar function finished"));
 
             
 

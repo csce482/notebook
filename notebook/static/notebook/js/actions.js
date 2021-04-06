@@ -887,7 +887,6 @@ define([
                 var min = date.getMinutes();
                 var second = date.getSeconds();
                 var miliSec = date.getMilliseconds();
-                console.log("Here JACOB" + " " + hour + ":" + min + ":" + second + ":" + miliSec);
                 env.notebook.save_checkpoint();
                 if(event){
                     event.preventDefault();
