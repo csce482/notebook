@@ -86,6 +86,10 @@ class KernelActionHandler(APIHandler):
             else:
                 model = yield maybe_future(km.kernel_model(kernel_id))
                 self.write(json.dumps(model, default=date_default))
+        if action == 'checkpoint':
+            self.log.warning("Received checkpoint request")
+            yield maybe_future(km.checkpoint_kernel(kernel_id))
+            self.set_status(204)
         self.finish()
 
 
@@ -610,7 +614,7 @@ class ZMQChannelsHandler(AuthenticatedZMQStreamHandler):
 
 
 _kernel_id_regex = r"(?P<kernel_id>\w+-\w+-\w+-\w+-\w+)"
-_kernel_action_regex = r"(?P<action>restart|interrupt)"
+_kernel_action_regex = r"(?P<action>restart|interrupt|checkpoint)"
 
 default_handlers = [
     (r"/api/kernels", MainKernelHandler),

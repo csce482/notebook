@@ -106,7 +106,13 @@ class SessionManager(LoggingConfigurable):
         #self.log.warning("from new_session_id")
         #return unicode_type(uuid.uuid4()) OLD way to get UUIID
         #print('testing print UUID: ' ,unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')))
-        return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')) #this encodes the UUID JACOB
+        if 'checkpoint' in kernel_name:
+            #return str(uuid.uuid3(uuid.NAMESPACE_DNS, 'checkpoint.kernel'))
+            return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')) #this encodes the UUID JACOB
+        
+        #return str(uuid.uuid4())
+        return unicode_type(uuid.uuid4())
+        #return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')) #this encodes the UUID JACOB
 
     @gen.coroutine
     def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):

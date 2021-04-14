@@ -165,6 +165,13 @@ define([
                 env.notebook.kernel.interrupt();
             }
         },
+        'checkpoint-kernel':{
+            cmd: i18n.msg._('checkpoint the kernel'),
+            help: i18n.msg._('checkpoint the kernel'),
+            handler : function (env) {
+                env.notebook.kernel.checkpoint();
+            }
+        },
         'run-cell-and-select-next': {
             cmd: i18n.msg._('run cell and select next'),
             icon: 'fa-play',
