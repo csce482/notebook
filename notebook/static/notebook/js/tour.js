@@ -110,7 +110,7 @@ define(['jquery', 'bootstraptour', 'base/js/i18n'], function($, Tour, i18n) {
             }, {
                 element: "#notification_kernel",
                 placement: 'bottom',
-                onShow: function(tour) { $('.fa-stop').click(); }, //JACOB
+                onShow: function(tour) { $('.fa-stop').click(); },
                 title: i18n.msg._("Notification Area"),
                 content: i18n.msg._("Messages in response to user actions (Save, Interrupt, etc.) appear here.")
             }, {

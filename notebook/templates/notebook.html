@@ -275,7 +275,7 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             console.log(y)
                             if(! y.includes('-checkpoint') ) {
                                 var elem = document.getElementById("checkpoint_kernel")
-                                elem.classList.add("hide")
+                                elem.classList.add("disabled")
                             }
                         </script>
                         <li id="restart_kernel"

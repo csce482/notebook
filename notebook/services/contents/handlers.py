@@ -158,14 +158,11 @@ class ContentsHandler(APIHandler):
         self._finish_model(model)
     
     @gen.coroutine
-    #JACOB twister routine handler
     def _save(self, model, path):
         """Save an existing file."""
         chunk = model.get("chunk", None) 
-        #self.log.info("_save in handlers.py")  
         if not chunk or chunk == -1:  # Avoid tedious log information
             self.log.info(u"Saving file at %s", path)  
-            #self.log.info(u"TESTING TESTING %s", path)
         model = yield maybe_future(self.contents_manager.save(model, path))
         validate_model(model, expect_content=False)
         self._finish_model(model)

@@ -75,20 +75,6 @@ define([
                         .text(ks.spec.display_name)
                         .attr('title', i18n.sprintf(i18n._('Create a new notebook with %s'), ks.spec.display_name))
                 );
-                // var li2 = $("<li>")
-                // .attr("id", "kernel-" +ks.name)
-                // .data('kernelspec', ks).append(
-                //     $('<a>')
-                //         .attr("aria-label", ks.name)
-                //         .attr("role", "menuitem")
-                //         .attr('href', '#')
-                //         .click($.proxy(this.new_notebook, this, ks.name))
-                //         .text(ks.spec.display_name)
-                //         .text(ks.spec.display_name)
-                //         .attr('title', i18n.sprintf(i18n._('Create a new notebook with %s fastfreeze checkpointing enabled'), ks.spec.display_name))
-                // );
-            // menu.after(li2);
-            // console.log('here')
             menu.after(li);
             
         }
@@ -133,50 +119,7 @@ define([
         if (evt !== undefined) {
             evt.preventDefault();
         }
-    };
-
-    NewNotebookWidget.prototype.new_notebook2 = function (kernel_name, evt) {
-        console.log("Called new_notebook2");
-        //console.log(process.env.FASTFREEZE);
-        /** create and open a new notebook */
-        var that = this;
-        kernel_name = kernel_name || this.default_kernel;
-        var w = window.open(undefined, IPython._target);
-        var dir_path = $('body').attr('data-notebook-path');
-        this.contents.new_untitled(dir_path, {type: "notebook"}).then(
-            function (data) {
-                var url = utils.url_path_join(
-                    that.base_url, 'notebooks',
-                    utils.encode_uri_components(data.path)
-                );
-                if (kernel_name) {
-                    url += "?kernel_name=" + kernel_name; + "-fastfreeze"; // appending fast freeze Roesha
-                }
-                w.location = url;
-        }).catch(function (e) {
-            w.close();
-            // This statement is used simply so that message extraction
-            // will pick up the strings.  The actual setting of the text
-            // for the button is in dialog.js.
-            var button_labels = [ i18n._("OK")];
-            dialog.modal({
-                title : i18n._('Creating Notebook Failed'),
-                body : $('<div/>')
-                    .text(i18n._("An error occurred while creating a new notebook."))
-                    .append($('<div/>')
-                        .addClass('alert alert-danger')
-                        .text(e.message || e)),
-                buttons: {
-                    OK: {'class' : 'btn-primary'}
-                }
-            });
-        });
-        if (evt !== undefined) {
-            evt.preventDefault();
-        }
-        console.log('finished new_notebook2')
-    };
-    
+    };    
     return {'NewNotebookWidget': NewNotebookWidget};
 });
 
