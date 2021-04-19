@@ -3345,11 +3345,6 @@ define([
      * Save the notebook then immediately create a checkpoint.
      */
     Notebook.prototype.save_checkpoint = function () { //prototype is how you define a function in js
-        var date = new Date();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        var second = date.getSeconds();
-        var miliSec = date.getMilliseconds();
         this._checkpoint_after_save = true;
         return this.save_notebook(true);
     };
