@@ -142,7 +142,7 @@ jupyter notebook                       # start the notebook
 jupyter notebook --certfile=mycert.pem # use SSL/TLS certificate
 jupyter notebook password              # enter a password to protect the server
 """
-#os.environ["FASTFREEZE"] = "False"
+
 #-----------------------------------------------------------------------------
 # Helper functions
 #-----------------------------------------------------------------------------

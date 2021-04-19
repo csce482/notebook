@@ -121,6 +121,7 @@ define([
         this.events.on('kernel_restarting.Kernel', record_status);
         this.events.on('kernel_autorestarting.Kernel', record_status);
         this.events.on('kernel_interrupting.Kernel', record_status);
+        this.events.on('kernel_checkpointing.Kernel', record_status);
         this.events.on('kernel_disconnected.Kernel', record_status);
         // these are commented out because they are triggered a lot, but can
         // be uncommented for debugging purposes
@@ -301,6 +302,34 @@ define([
             error: this._on_error(error)
         });
     };
+
+    Kernel.prototype.checkpoint = function (success, error) {
+        //this.events.trigger('kernel_interrupting.Kernel', {kernel: this});
+        this.events.trigger('kernel_checkpointing.Kernel', {kernel: this});
+
+        var that = this;
+        var on_success = function (data, status, xhr) {
+            /**
+             * get kernel info so we know what state the kernel is in
+             */
+            that.kernel_info();
+            if (success) {
+                success(data, status, xhr);
+            }
+        };
+
+        //var url = utils.url_path_join(this.kernel_url, 'interrupt');
+        var url = utils.url_path_join(this.kernel_url, 'checkpoint');
+        utils.ajax(url, {
+            processData: false,
+            cache: false,
+            type: "POST",
+            contentType: false,  // there's no data with this
+            dataType: "json",
+            success: this._on_success(on_success),
+            error: this._on_error(error)
+        });
+    };    
 
     Kernel.prototype.restart = function (success, error) {
         /**

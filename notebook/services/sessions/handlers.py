@@ -69,7 +69,6 @@ class SessionRootHandler(APIHandler):
             model = yield maybe_future(sm.get_session(path=path))
         else:
             try:
-                #JACOB TODO pass down checkpointable as session variable
                 model = yield maybe_future(
                     sm.create_session(path=path, kernel_name=kernel_name,
                                       kernel_id=kernel_id, name=name,

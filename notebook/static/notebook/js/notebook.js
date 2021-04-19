@@ -2328,9 +2328,7 @@ define([
         shutdown_options.dialog = {
             title : "Shutdown kernel?",
             body : $("<p/>").text(
-                //ADD IF STATEMENT HERE
-                //console.log('checkpoint enabled? ', that.kernel.checkpoint_enabled())
-                i18n.msg._('Do you want to shutdown the current kernel? Variables will be presereved with FastFreeze Checkpoint.')
+                i18n.msg._('Do you want to shutdown the current kernel?')
             ),
             buttons : {
                 "Shutdown" : {
@@ -2353,8 +2351,7 @@ define([
         restart_options.dialog = {
             title : i18n.msg._("Restart kernel?"),
             body : $("<p/>").text(
-                //ADD IF STATEMENT HERE
-                i18n.msg._('Do you want to restart the current kernel?  Varialbes will be presereved with FastFreeze Checkpoint.')
+                i18n.msg._('Do you want to restart the current kernel?')
             ),
             buttons : {
                 "Restart" : {
@@ -2758,9 +2755,8 @@ define([
 
         var that = this;
         var _save = function () {
-            //console.log("that.notebook_path: " + that.notebook_path)
-            //console.log("model: " + model)
-            return that.contents.save(that.notebook_path, model).then( //JACOB WHATDOESTHISLINEDO?
+
+            return that.contents.save(that.notebook_path, model).then(
                 $.proxy(that.save_notebook_success, that, start),
                 function (error) {
                     that.events.trigger('notebook_save_failed.Notebook', error);
@@ -3345,11 +3341,6 @@ define([
      * Save the notebook then immediately create a checkpoint.
      */
     Notebook.prototype.save_checkpoint = function () { //prototype is how you define a function in js
-        var date = new Date();
-        var hour = date.getHours();
-        var min = date.getMinutes();
-        var second = date.getSeconds();
-        var miliSec = date.getMilliseconds();
         this._checkpoint_after_save = true;
         return this.save_notebook(true);
     };

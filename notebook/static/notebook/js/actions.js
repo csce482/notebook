@@ -165,6 +165,13 @@ define([
                 env.notebook.kernel.interrupt();
             }
         },
+        'checkpoint-kernel':{ //made by Jacob and Alisah
+            cmd: i18n.msg._('checkpoint the kernel'),
+            help: i18n.msg._('checkpoint the kernel'),
+            handler : function (env) {
+                env.notebook.kernel.checkpoint();
+            }
+        },
         'run-cell-and-select-next': {
             cmd: i18n.msg._('run cell and select next'),
             icon: 'fa-play',
@@ -882,12 +889,13 @@ define([
             help_index : 'fb',
             icon: 'fa-save',
             handler : function (env, event) {
-                var date = new Date();
-                var hour = date.getHours();
-                var min = date.getMinutes();
-                var second = date.getSeconds();
-                var miliSec = date.getMilliseconds();
                 env.notebook.save_checkpoint();
+                var y = window.location.href
+                console.log(y)
+                if(y.includes('-checkpoint') ) {
+                    env.notebook.kernel.checkpoint();  
+                }
+                //env.notebook.kernel.checkpoint();
                 if(event){
                     event.preventDefault();
                 }

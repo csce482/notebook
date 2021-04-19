@@ -232,6 +232,7 @@ define([
             '#restart_clear_output': 'confirm-restart-kernel-and-clear-output',
             '#restart_run_all': 'confirm-restart-kernel-and-run-all-cells',
             '#close_and_halt': 'close-and-halt',
+            '#checkpoint_kernel': 'checkpoint-kernel',
             '#int_kernel': 'interrupt-kernel',
             '#cut_cell': 'cut-cell',
             '#copy_cell': 'copy-cell',

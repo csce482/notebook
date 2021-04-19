@@ -265,6 +265,19 @@ data-notebook-path="{{notebook_path | urlencode}}"
                             title="{% trans %}Send Keyboard Interrupt (CTRL-C) to the Kernel{% endtrans %}">
                             <a href="#">{% trans %}Interrupt{% endtrans %}</a>
                         </li>
+
+                        <li id="checkpoint_kernel"
+                            title="{% trans %}Checkpoint the Kernel{% endtrans %}">
+                            <a href="#">{% trans %}Checkpoint{% endtrans %}</a>
+                        </li>
+                        <script>
+                            var y = window.location.href
+                            console.log(y)
+                            if(! y.includes('-checkpoint') ) {
+                                var elem = document.getElementById("checkpoint_kernel")
+                                elem.classList.add("disabled")
+                            }
+                        </script>
                         <li id="restart_kernel"
                             title="{% trans %}Restart the Kernel{% endtrans %}">
                             <a href="#">{% trans %}Restart{% endtrans %}</a>

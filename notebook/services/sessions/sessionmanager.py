@@ -40,9 +40,7 @@ class SessionManager(LoggingConfigurable):
     _cursor = None
     _connection = None
     _columns = {'session_id', 'path', 'name', 'type', 'kernel_id'}
-    #_fastfreeze = False
 
-    #sm._fastfreeze
 
     @property
     def cursor(self):
@@ -90,23 +88,11 @@ class SessionManager(LoggingConfigurable):
 
     def new_session_id(self, kernel_name=""):
         "Create a uuid for a new session"
-        #self.log.warning("==========from session manager ROESHA")
-        #self.log.warning(kernel_name)
-        #ADD IF STATEMENT HERE 
-        # if kernel_name.endswith("-checkpoint"):
-        #     self.log.warning("Checkpointing Enabled")
-        #     self.log.warning(kernel_name)
-        # else:
-        #     self.log.warning("Checkpointing disabled")
-        #     self.log.warning(kernel_name)
-        #if ff == TRUE
-            #return  unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id'))
-        #else:
-            #return unicode_type(uuid.uuid4())
-        #self.log.warning("from new_session_id")
-        #return unicode_type(uuid.uuid4()) OLD way to get UUIID
-        #print('testing print UUID: ' ,unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')))
-        return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')) #this encodes the UUID JACOB
+
+        if 'checkpoint' in kernel_name:
+            return unicode_type(uuid.uuid3(uuid.NAMESPACE_DNS, 'test.session.id')) #this encodes the UUID JACOB
+        
+        return unicode_type(uuid.uuid4())
 
     @gen.coroutine
     def create_session(self, path=None, name=None, type=None, kernel_name=None, kernel_id=None):
@@ -248,7 +234,6 @@ class SessionManager(LoggingConfigurable):
         return kernel_id not in self.kernel_manager
 
     @gen.coroutine
-    #ADD IF STATEMENT HERE -- NOT
     def row_to_model(self, row, kernel_name=None, tolerate_culled=True): #prev FALSE
         """Takes sqlite database session row and turns it into a dictionary"""
         kernel_culled = yield maybe_future(self.kernel_culled(row['kernel_id']))
@@ -260,13 +245,7 @@ class SessionManager(LoggingConfigurable):
             # If caller wishes to tolerate culled kernels, log a warning
             # and return None.  Otherwise, raise KeyError with a similar
             # message.
-            #self.log.warning("From row_to_model")
-            # if kernel_name.endswith("-checkpoint"):
-            #     self.log.warning("Checkpointing Enabled")
-            #     self.log.warning(kernel_name)
-            # else:
-            #     self.log.warning("Checkpointing disabled")
-            #     self.log.warning(kernel_name)
+            
 
             #ADD IF STATEMENT HERE
             # if ff == false: 

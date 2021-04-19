@@ -96,14 +96,11 @@ define([
         });
 
         this.events.on('kernel_reconnecting.Kernel', function () {
-            //ADD IF STATEMENT HERE
-            // var that = this;
-            // console.log('checkpoint enabled reconnecting kernel? ', that.kernel.checkpoint_enabled())
-            knw.danger(i18n.msg._("Please wait, FastFreeze is connecting to kernel"));
+            knw.danger(i18n.msg._("Connecting to kernel"));
         });
 
         this.events.on('kernel_connection_dead.Kernel', function (evt, info) {
-            knw.danger(i18n.msg._("FF Error: Unable to restore kernel"), undefined, function () {
+            knw.danger(i18n.msg._("Not Connected"), undefined, function () {
                 // schedule reconnect a short time in the future, don't reconnect immediately
                 //setTimeout($.proxy(info.kernel.reconnect, info.kernel), 500);
             }, {title: i18n.msg._('click to reconnect')});
@@ -153,11 +150,7 @@ define([
             knw.set_message(i18n.msg._("Interrupting kernel"), 2000);
         });
 
-        this.events.on('kernel_disconnected.Kernel', function () {
-            //ADD IF STATEMENT HERE
-            // var that = this;
-            // console.log('checkpoint enabled kernel_disconnected? ', that.kernel.checkpoint_enabled())
-            knw.warning(i18n.msg._("FastFreeze failed to connect to kernel"));
+        this.events.on('kernel_disconnected.Kernel', function () {            
             $kernel_ind_icon
                 .attr('class', 'kernel_disconnected_icon')
                 .attr('title', i18n.msg._('No Connection to Kernel'));
@@ -168,18 +161,14 @@ define([
             // connect attempt, because the kernel will continue
             // trying to reconnect and we don't want to spam the user
             // with messages
-            if (info.attempt > 0) { //previously set as info.attempt === 1
+            if (info.attempt === 0) {
 
-                // var msg = i18n.msg._("A connection to the notebook server could not be established." +
-                //         " The notebook will continue trying to reconnect. Check your" +
-                //         " network connection or notebook server configuration.");
-                //ADD IF STATEMENT HERE
-                // var that = this;
-                // console.log('checkpoint enabled  kernel_connection_failed? ', that.kernel.checkpoint_enabled())
-                var msg = i18n.msg._("Connection failed. FastFreeze was not able to relaunch your previously checkpointed Kernel");
+                var msg = i18n.msg._("A connection to the notebook server could not be established." +
+                        " The notebook will continue trying to reconnect. Check your" +
+                        " network connection or notebook server configuration.");
 
                 var the_dialog = dialog.kernel_modal({
-                    title: i18n.msg._("FastFreeze Error: Connection failed. FastFreeze was not able to relaunch your previously checkpointed Kernel"),
+                    title: i18n.msg._("Connection failed"),
                     body: msg,
                     keyboard_manager: that.keyboard_manager,
                     notebook: that.notebook,
@@ -252,11 +241,8 @@ define([
         });
 
         this.events.on('kernel_dead.Session', function (evt, info) {
-            //ADD IF STATEMENT HERE
-            // var that = this;
-            // console.log('checkpoint enabled kernel_dead? ', that.kernel.checkpoint_enabled())
             var full = info.xhr.responseJSON.message;
-            var short = info.xhr.responseJSON.short_message || 'FastFreeze Error. Click me!';
+            var short = info.xhr.responseJSON.short_message || 'Kernel error';
             var traceback = info.xhr.responseJSON.traceback;
 
             var showMsg = function () {
@@ -308,50 +294,11 @@ define([
         });
 
         this.events.on('kernel_ready.Kernel', function () {
-            // that.save_widget.update_document_title();
-            //ADD IF STATEMENT HERE
-            //console.log("Jacob: kernel_ready event is caught")
-            // var that = this;
-            // console.log('checkpoint enabled kernel ready? ', that.kernel.checkpoint_enabled())
             $kernel_ind_icon.attr('class','kernel_idle_icon').attr('title',i18n.msg._('Kernel Idle'));
-            knw.info(i18n.msg._("FastFreeze Enabled: Kernel ready"), 500);
+            knw.info(i18n.msg._("Kernel ready"), 500);
             set_busy_favicon(false);
         });
 
-        //this is where the loading bar will go JACOB
-        this.events.on( 'kernel_starting.Kernel kernel_created.Session', function (){
-            //console.log("JACOB: caight kernel_starting or kernel_created")
-            //console.log(this.events)
-            //console.log("Loading bar function called");
-            // return new Promise(function() {
-            //     once
-            // });
-
-            // async function waitReady(that) {
-            //     await that.events.on('kernel_ready.Kernel', function (){
-            //         console.log("Loading bar done");
-            //     });
-            // }
-
-            // waitReady(this);
-
-            // that.events.on('kernel_ready.Kernel', function () {
-            //     console.log("JACOB: Testing Kernel Ready wait")
-            // });
-
-            // async function waitReady() {
-            //     await that.events.on('kernel_ready.Kernel', function () {
-            //         console.log("JACOB: waiting for kernel to be ready")
-            //     });
-            //     console.log("Done: kernel ready")
-            //     setTimeout(() => console.log("second"),2000); //added this line
-            // }
-
-            // waitReady().then(console.log("Loading bar function finished"));
-
-            
-
-        });
 
         this.events.on('kernel_idle.Kernel', function () {
             // that.save_widget.update_document_title();
@@ -397,7 +344,7 @@ define([
             nnw.set_message(i18n.msg._("Saving notebook"),500);
         });
         this.events.on('notebook_saved.Notebook', function () {
-            nnw.set_message(i18n.msg._("FastFreeze: Checkpoint Created"),2000);
+            nnw.set_message(i18n.msg._("Checkpoint Created"),2000);
         });
         this.events.on('notebook_save_failed.Notebook', function (evt, error) {
             nnw.warning(error.message || i18n.msg._("Notebook save failed"));
@@ -408,10 +355,7 @@ define([
         
         // Checkpoint events
         this.events.on('checkpoint_created.Notebook', function (evt, data) {
-            //ADD IF STATEMENT HERE
-            // var that = this;
-            // console.log('checkpoint enabled checkpoint created? ', that.kernel.checkpoint_enabled())
-            var msg = i18n.msg._("FastFreeze: Checkpoint completed");
+            var msg = i18n.msg._("Checkpoint created");
             if (data.last_modified) {
                 var d = new Date(data.last_modified);
                 msg = msg + ": " + moment(d).format("HH:mm:ss");

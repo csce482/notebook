@@ -503,6 +503,20 @@ class GatewayKernelManager(AsyncMappingKernelManager):
         response = await gateway_request(kernel_url, method='POST', body=json_encode({}))
         self.log.debug("Interrupt kernel response: %d %s", response.code, response.reason)
 
+    async def checkpoint_kernel(self, kernel_id, **kwargs):
+        """Checkpoint a kernel by its kernel uuid.
+
+        Parameters
+        ==========
+        kernel_id : uuid
+            The id of the kernel to checkpoint.
+        """
+        #kernel_url = self._get_kernel_endpoint_url(kernel_id) + '/interrupt'
+        kernel_url = self._get_kernel_endpoint_url(kernel_id) + '/checkpoint'
+        self.log.debug("Request checkpoint kernel at: %s", kernel_url)
+        response = await gateway_request(kernel_url, method='POST', body=json_encode({}))
+        self.log.debug("checkpoint kernel response: %d %s", response.code, response.reason)
+
     def shutdown_all(self, now=False):
         """Shutdown all kernels."""
         # Note: We have to make this sync because the NotebookApp does not wait for async.
